@@ -1,0 +1,183 @@
+/* Globais */
+*{
+    padding: 0;
+    margin: 0;
+}
+
+select2 {
+   language: "pt-br";
+}
+
+.altura{
+    height: 30px;
+}
+
+.logo{
+    padding-top: 2.5%;
+}
+
+.captalize {
+    text-transform: capitalize;
+}
+
+.content-wrapper {
+    margin-top: 40px;
+    min-height: 680px !important;
+    padding-bottom: 60px;
+}
+
+.branco{
+    color: #fff;
+}
+
+.back{
+    background-color: #222322;
+    margin-top: -22px;
+}
+.titulo{
+    font-size: 18px;
+    font-family: verdana, sans-serif;
+    color: #ffffff;
+}
+
+footer {
+    padding: 10px;
+    color: #fff;
+    font-size: 12px;
+    background-color: #8a1818;
+    margin-bottom: -15px;
+}
+
+footer a, footer a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Botão Bootstrap */
+.btn {
+    position: relative;
+    display: block;
+    border-radius: 0px;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+}
+
+.btn-black {
+    background: #444;
+    color: #fff;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+.js-example-basic-single {
+    height: 30px;
+}
+
+/* Drag and Drop */
+#drop_file_zone {
+   background-color: #EEE;
+   border: #999 3px dashed;
+   width: 100%;
+   height: 130px;
+   padding: 8px;
+   font-size: 16px;
+}
+
+#drag_upload_file {
+   width:50%;
+   margin:0 auto;
+}
+
+#drag_upload_file p {
+   text-align: center;
+}
+
+#drag_upload_file #selectfile {
+   display: none;
+}
+
+/* Table */
+.bpmTopicC {
+   text-align: left;
+   font-family: sans-serif;
+   font-size: 11pt;
+}
+
+table {
+   font-family: arial;
+   font-size: 12px;
+   line-height: 16px;
+   border-collapse: collapse;
+   border: 1pt solid #000;
+   width: 100%;
+}
+
+td {
+   font-family: arial;
+   font-size: 12px;
+   //line-height: 1.7m;
+   border-collapse: collapse;
+   border: 1pt solid #000;
+   padding: 5px;
+}
+
+.Totais {
+   font-family: Arial, Helvetica, sans-serif;
+   font-weight: bold;
+   font-size: 13px;
+   padding-left: 10px;
+   text-align: right;
+}
+
+hr {
+  border: 1px solid;
+}
+
+h2 {
+    display: grid;
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    grid-template-columns: minmax(10px, 1fr) auto minmax(10px, 1fr);
+    grid-gap: 8px;
+}
+
+h2:before,
+h2:after {
+    content: '';
+    border-top: 2px solid;
+}
+
+h2 {
+    margin: 10px 0;
+    font: 700 1.7em/1.4 'Avenir', sans-serif;
+    color: #000;
+}
+
+.nav-tabs .nav-link.active {
+    font-weight:bold;
+    background-color: transparent;
+    border-bottom:3px solid #dd0000;
+    border-right: none;
+    border-left: none;
+    border-top: none;
+}

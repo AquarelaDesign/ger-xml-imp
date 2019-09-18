@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+      <title>Fipe Direto</title>
+      <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"-->
+      <!--link rel="stylesheet" href="assets/bootstrap/4.0.0/css/bootstrap.min.css"-->
+      <link rel="stylesheet" href="assets/bootstrap/3.3.7/css/bootstrap.min.css">
+      <link href="assets/fontawesome-free-5.0.9/css/fa-solid.min.css" rel="stylesheet">
+      <link href="assets/css/style.css" rel="stylesheet">
+      <link href="assets/summernote-0.8.9/summernote.css" rel="stylesheet">
+      <link href="assets/select2/dist/css/select2.css" rel="stylesheet">
+      
+      <script src="assets/jquery-3.3.1/jquery-3.3.1.js"></script>
+      <script type="text/javascript" src="assets/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="assets/summernote-0.8.9/summernote.js"></script>
+      <script type="text/javascript" src="assets/select2/dist/js/select2.js"></script>
+      <script type="text/javascript" src="assets/mask/jquery.mask.min.js"></script>
+      <script type="text/javascript">
+         var gerarInput  = '';
+         var container   = $(".container");
+         var selectMes   = container.find('#mes');
+         var selectMarca = container.find('#auto_marca');
+
+         function init() {
+            var years = '';
+            for (i = 1950; i <= (new Date()).getFullYear(); i++) { 
+               years = years + '<option value="' + i + '">' + i + '</option>';
+            }
+            $('#auto_ano').html(years);
+            
+            $('.money').mask("#.##0,00", {reverse: true});
+
+            $.get('mesReferencia.php', {}, 
+               function(data){
+                  var cmb = '';
+                  $.each(data, function (i, item){
+                     cmb = cmb + '<option value="' + data[i].Codigo + '">' + data[i].Mes + '</option>';
+                  });
+                  $('#mes').empty();
+                  $('#mes').html(cmb);
+                  
+                  //$('#referencia').html('Referência: ' + $('#mes option:selected').text());
+                  //$('input[name="referencia"]').value;
+                  //document.getElementById('referencia').value = $('#mes option:selected').text();
+                  $("#referencia").text($('#mes option:selected').text());
+                  marcas();
+               }, 
+            'json');
+         }   
+
+         function marcas() {
+            var mes  = $('#mes').val();
+            var tipo = $('#tipo').val();
+            $.get('verfipe.php', {"c":"marcas","mes":mes,"tipo":tipo}, 
+               function(data){
+                  var cmb = '<option value="">Selecione a marca...</option>';
+                  $.each(data, function (i, item){
+                     cmb = cmb + '<option value="' + item.Value + '">' + item.Label + '</option>';
+                  });
+                  $('#auto_marca').empty();
+                  $('#auto_marca').html(cmb);
+                  //modelos();
+               }, 
+            'json');
+         }   
+
+         function modelos() {
+            var mes   = $('#mes').val();
+            var tipo  = $('#tipo').val();
+            var marca = $('#auto_marca').val();
+            $.get('verfipe.php', {"c":"modelos","mes":mes,"tipo":tipo,"marca":marca}, 
+               function(data){
+                  var cmb = '<option value="">Selecione o modelo...</option>';
+                  $.each(data.Modelos, function (i, item){
+                     cmb = cmb + '<option value="' + item.Value + '">' + item.Label + '</option>';
+                  });
+                  $('#auto_modelo').empty();
+                  $('#auto_modelo').html(cmb);
+                  //anos();
+               }, 
+            'json');
+         }   
+
+         function anos() {
+            var mes    = $('#mes').val();
+            var tipo   = $('#tipo').val();
+            var marca  = $('#auto_marca').val();
+            var modelo = $('#auto_modelo').val();
+            $.get('verfipe.php', {"c":"anos","mes":mes,"tipo":tipo,"marca":marca,"modelo":modelo}, 
+               function(data){
+                  var cmb = '<option value="">Selecione o ano...</option>';
+                  $.each(data, function (i, item){
+                     cmb = cmb + '<option value="' + item.Value + '">' + item.Label + '</option>';
+                  });
+                  $('#ano').empty();
+                  $('#ano').html(cmb);
+                  //dados();
+               }, 
+            'json');
+         }   
+
+         function dados() {
+            var mes    = $('#mes').val();
+            var tipo   = $('#tipo').val();
+            var marca  = $('#auto_marca').val();
+            var modelo = $('#auto_modelo').val();
+            var anoval = $('#ano').val();
+            
+            var anoarr = anoval.split('-');
+            var ano    = anoarr[0];
+            var cb     = anoarr[1];
+            
+            var tv     = "";
+            switch(tipo) {
+               case "1": tv = 'carro'; break;
+               case "2": tv = 'moto'; break;
+               case "3": tv = 'caminhao'; break;
+            }
+            
+            $.get('verfipe.php', {"c":"dados","mes":mes,"tipo":tipo,"marca":marca,"modelo":modelo,"ano":ano,"tc":cb,"tv":tv}, 
+               function(data){
+                  var li = '';
+                  
+                  $.each(data, function (i, item){
+                     if (i != "TipoVeiculo" && i != "SiglaCombustivel") {
+                        li = li + '<li value="' + i + '">' + i + " : " + item + '</li>';
+                     }
+                  });
+                  
+                  $('#lista').empty();
+                  $('#lista').html(li);
+                  
+                  console.log(data);
+                  
+                  var valor = data.Valor;
+                  document.getElementById('auto_preco').value = valor.replace('R$','').trim();
+                  
+                  document.getElementById('auto_fipe').value = data.CodigoFipe;
+                  document.getElementById('Autenticacao').value = data.Autenticacao;
+                  document.getElementById('DataConsulta').value = data.DataConsulta;
+
+                  
+                  $("#auto_ano").children('[value="'+data.AnoModelo+'"]').attr('selected', true);
+                  $('#auto_ano').val(data.AnoModelo).trigger('change.select2');
+
+                  
+                  var comb = $("#auto_combustivel");
+                  var cmb = comb[0].options;
+                  for (i = 0; i < cmb.length; i++) { 
+                     if (cmb[i].text == data.Combustivel) {
+                        $("#auto_combustivel").children('[value="'+cmb[i].value+'"]').attr('selected', true);
+                        $('#auto_combustivel').val(cmb[i].value).trigger('change.select2');
+                        break;
+                     }
+                  }
+                  
+                  var mod = data.Modelo.split(' ');
+                  var carr = $("#auto_carroceria");
+                  var car  = carr[0].options;
+                  for (i = 0; i < car.length; i++) { 
+                     if (car[i].text == mod[1]) {
+                        $("#auto_carroceria").children('[value="'+car[i].value+'"]').attr('selected', true);
+                        $('#auto_carroceria').val(car[i].value).trigger('change.select2');
+                        break;
+                     }
+                  }
+                  
+                  
+               }, 
+            'json');
+         }
+
+         function cadastrar(data) {
+            var li = '';
+            
+            $.each(data, function (i, item){
+               li = li + '<li value="' + i + '">' + i + " : " + item.val() + '</li>';
+            });
+            
+            $('#lista').empty();
+            $('#lista').html(li);
+
+            alert(data);
+            return false;
+         }
+      </script>
+
+   </head>
+   <body class="hold-transition login-page" onload="init()">
+      <div class="container-fluid back">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-9 col-xs-12">
+                  &nbsp;
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-md-9 col-xs-12">
+                  <h3 class="page-head-line titulo">Novo</h3>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="content-wrapper">
+         <div class="container">
+            <form method="post" enctype="multipart/form-data" onsubmit="return cadastrar(this);">
+               <div class="row">
+                  <div class="form-group col-md-3 col-xs-12">
+                     <label>Tipo de Veículo</label>
+                     <select name="tipo" id="tipo" class="form-control js-example-basic-single">
+                        <option value="1">Carro</option>
+                        <option value="2">Moto</option>
+                        <option value="3">Caminhão / Ônibus</option>
+                     </select>
+                  </div>
+
+                  <div class="col-md-6 col-xs-12">
+                     <br/>
+                     <label>Referência:</label>
+                     <p" name="referencia" id="referencia" class="captalize"></p>
+                     <!--input type="text" name="referencia" id="referencia" class="form-control altura" disabled/-->
+                  </div>
+                  <div class="form-group col-md-3 col-xs-12 invisible">
+                     <!--label>Referência</label-->
+                     <select name="mes" id="mes" class="form-control js-example-basic-single"></select>
+                  </div>
+               </div>
+
+               <div class="row">
+                  <div class="form-group col-md-6 col-xs-12">
+                     <label>Marca</label>
+                     <select name="auto_marca" id="auto_marca" class="form-control js-example-basic-single" required>
+                        <option value="">Selecione a marca...</option>
+                     </select>
+                  </div>
+                  
+                  <div class="form-group col-md-6 col-xs-12">
+                     <label>Modelo</label>
+                     <select name="auto_modelo" id="auto_modelo" class="form-control js-example-basic-single" required>
+                        <option value="">Selecione o modelo...</option>
+                     </select>
+                  </div>
+               </div>
+
+               <div class="row">
+                  <div class="form-group col-md-2 col-xs-12">
+                     <label>Ano/Combustível</label>
+                     <select name="ano" id="ano" class="form-control js-example-basic-single" required>
+                        <option value="">Selecione o ano...</option>
+                     </select>
+                  </div>
+                  <div class="form-group col-md-2 col-xs-12">
+                     <label>Versão</label>
+                     <input type="text" name="auto_versao" id="auto_versao" class="form-control altura" disabled />
+                  </div>
+                  <div class="form-group col-md-2 col-xs-12">
+                     <label>Placa</label>
+                     <input type="text" name="auto_placa_num" id="auto_placa_num" class="form-control altura" />
+                  </div>
+                  <div class="form-group col-md-2 col-xs-12">
+                      <label for="auto_placa">Final da Placa</label>
+                      <select name="auto_placa" id="auto_placa" class="form-control js-example-basic-single" required >
+                          <option value="">Selecione...</option>
+                          <option value="1">1</option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                          <option value="6">6</option>
+                          <option value="7">7</option>
+                          <option value="8">8</option>
+                          <option value="9">9</option>
+                          <option value="0">0</option>
+                      </select>
+                  </div>
+                  <div class="form-group col-md-2 col-xs-12">
+                      <label for="auto_estado">Estado do carro</label>
+                      <select name="auto_estado" id="auto_estado" class="form-control js-example-basic-single" required >
+                          <option value="">Estado do carro...</option>
+                          <option value="0">Novo</option>
+                          <option value="1" selected>Usado</option>
+                      </select>
+                  </div>
+                  <div class="form-group col-md-2 col-xs-12">
+                      <label for="auto_ano">Ano</label>
+                      <select name="auto_ano" id="auto_ano" class="form-control js-example-basic-single" disabled > 
+                      </select>
+                  </div>
+               </div>
+
+               <div class="row">
+                  <div class="form-group col-md-2 col-xs-12">
+                      <label for="auto_cambio">Câmbio</label>
+                      <select name="auto_cambio" id="auto_cambio" class="form-control js-example-basic-single" required >
+                          <option value="">Selecione...</option>
+                          <option value="1">Automático</option>
+                          <option value="2" selected>Manual</option>
+                          <option value="3">Semi-Automático</option>
+                          <option value="4">Tiptronic</option>
+                          <option value="5">Sequencial</option>
+                      </select>
+                  </div>
+                  <div class="form-group col-md-2 col-xs-12">
+                      <label for="auto_cor">Cor</label>
+                      <select name="auto_cor" id="auto_cor" class="form-control js-example-basic-single" required >
+                          <option value="">Selecione...</option>
+                          <option value="1">Amarelo</option>
+                          <option value="2">Azul</option>
+                          <option value="3">Bege</option>
+                          <option value="4">Branco</option>
+                          <option value="5">Bronze</option>
+                          <option value="6">Cinza</option>
+                          <option value="7">Dourado</option>
+                          <option value="8">Indefinido</option>
+                          <option value="9">Laranja</option>
+                          <option value="10">Marrom</option>
+                          <option value="11">Prata</option>
+                          <option value="12">Preto</option>
+                          <option value="13">Rosa</option>
+                          <option value="14">Roxo</option>
+                          <option value="15">Verde</option>
+                          <option value="16">Vermelho</option>
+                          <option value="17">Vinho</option>
+                      </select>           
+                  </div>                  
+                  <div class="form-group col-md-2 col-xs-12">
+                      <label for="auto_combustivel">Combustível</label>
+                      <select name="auto_combustivel" id="auto_combustivel" class="form-control js-example-basic-single" required>
+                          <option value="">Selecione...</option>
+                          <option value="1">Álcool</option>
+                          <option value="2">Álcool e Gás Natural</option>
+                          <option value="3">Diesel</option>
+                          <option value="4">Elétrico</option>
+                          <option value="5">Flex</option>
+                          <option value="6">Flex e Gás Natural</option>
+                          <option value="7">Gás Natural</option>
+                          <option value="8">Gasolina</option>
+                          <option value="9">Gasolina e Elétrico</option>
+                          <option value="10">Gasolina e Gás Natural</option>
+                      </select>
+                  </div>
+                  <div class="form-group col-md-2 col-xs-12">
+                      <label for="auto_carroceria">Carroceria</label>
+                      <select name="auto_carroceria" id="auto_carroceria" class="form-control js-example-basic-single" required >
+                          <option value="">Selecione...</option>
+                          <option value="1">Buggy</option>
+                          <option value="13">Compacto</option>
+                          <option value="2">Conversível</option>
+                          <option value="3">Coupê</option>
+                          <option value="14">Crossover</option>
+                          <option value="11">Esporte</option>
+                          <option value="4">Hatch</option>
+                          <option value="15">Jipe</option>
+                          <option value="12">Luxo</option>
+                          <option value="7">Pick-up</option>
+                          <option value="8">Sedan</option>
+                          <option value="9">SUV</option>
+                          <option value="6">SW</option>
+                          <option value="10">Utilitário</option>
+                          <option value="5">Van</option>
+                      </select>
+                  </div>
+                  <div class="form-group col-md-2 col-xs-12">
+                      <label for="auto_documentacao">Documentação</label>
+                      <select name="auto_documentacao" id="auto_documentacao" class="form-control js-example-basic-single" >
+                          <option value="">Selecione...</option>
+                          <option value="1">Alienado</option>
+                          <option value="2">Garantia de Fábrica</option>
+                          <option value="3">IPVA Pago</option>
+                          <option value="4">Licenciado</option>
+                          <option value="5">Todas as revisões feitas pela agenda</option>
+                          <option value="6">Todas as revisões feitas pela concessionária</option>
+                          <option value="7">Único Dono</option>
+                      </select>
+                  </div>
+                  <div class="form-group col-md-2 col-xs-12">
+                      <label for="auto_necessidade">Necessidade</label>
+                      <select name="auto_necessidade" id="auto_necessidade" class="form-control js-example-basic-single" >
+                          <option value="">Selecione...</option>
+                          <option value="1">Adaptado para deficientes físicos</option>
+                          <option value="2">Carro de colecionador</option>
+                          <option value="3">Comercial</option>
+                          <option value="4">Esportivo</option>
+                          <option value="5">Familiar Grande</option>
+                          <option value="6">Familiar Médio</option>
+                          <option value="7">Familiar Pequeno</option>
+                          <option value="8">Lazer</option>
+                          <option value="9">Off-road</option>
+                          <option value="10">Urbano</option>
+                      </select>
+                  </div>
+               </div>
+               
+               <div class="row">
+                  <div class="form-group col-md-2 col-xs-12">
+                     <label for="auto_porta">Número de portas</label>
+                     <select name="auto_porta" id="auto_porta" class="form-control js-example-basic-single" required>
+                        <option value="">Selecione...</option>
+                        <option value="0">0</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="4">5</option>
+                        <option value="4">7</option>
+                     </select>
+                  </div>
+                  <div class="form-group col-md-2 col-xs-12">
+                     <label for="auto_negociacao">Tipo de negociação</label>
+                     <select name="auto_negociacao" id="auto_negociacao" class="form-control js-example-basic-single" required >
+                        <option value="1">Aceita troca</option>
+                        <option value="0" selected>Não aceita troca</option>
+                     </select>
+                  </div>
+                  <div class="col-md-2 col-xs-12">
+                     <label for="auto_destaque">Em destaque</label>
+                     <select name="auto_destaque" id="auto_destaque" class="form-control js-example-basic-single" required>
+                        <option value="1">SIM</option>
+                        <option value="0" selected>NÃO</option>
+                     </select>
+                  </div>
+                  <div class="col-md-2 col-xs-12">
+                     <label for="auto_oferta">Em oferta</label>
+                     <select name="auto_oferta" id="auto_oferta" class="form-control js-example-basic-single" required>
+                        <option value="1">SIM</option>
+                        <option value="0" selected>NÃO</option>
+                     </select>
+                  </div>
+                  <div class="form-group col-md-2 col-xs-12">
+                     <label for="auto_km">Kilometragem</label>
+                     <input type="text" name="auto_km" id="auto_km" class="form-control altura" placeholder="Informe a km" required />
+                  </div>
+                  <div class="form-group col-md-2 col-xs-12">
+                     <label for="auto_preco">Preço</label>
+                     <input type="text" name="auto_preco" id="auto_preco" class="form-control altura money" placeholder="Informe o preço" required />
+                  </div>
+               </div>
+               
+               <div class="row">
+                  <div class="form-group col-md-2 col-xs-12">
+                     <label>FIPE</label>
+                     <input type="text" name="auto_fipe" id="auto_fipe" class="form-control altura" disabled />
+                  </div>
+                  <div class="form-group col-md-4 col-xs-12">
+                     <label>Autenticação</label>
+                     <input type="text" name="Autenticacao" id="Autenticacao" class="form-control altura" disabled />
+                  </div>
+                  <div class="form-group col-md-6 col-xs-12">
+                     <label>Data da Consulta</label>
+                     <input type="text" name="DataConsulta" id="DataConsulta" class="form-control altura" disabled />
+                  </div>
+
+                  <!--div class="col-md-3 col-xs-12">
+                     <button type="submit" class="btn btn-default btn-success iniciar" onclick="dados()">
+                        <i class="fa fa-cloud-download" aria-hidden="true"></i> Consultar
+                     </button>
+                  </div-->
+               </div>
+
+               <div class="form-group">
+                  <label for="auto_obs">Depoimento</label>
+                  <textarea name="auto_obs" id="auto_obs"></textarea>
+               </div>
+               
+               <br/>
+               <div class="row">
+                  <div class="form-group col-md-6 col-xs-12">
+                     <label for="auto_seo_desc">Descrição breve (SEO - Opcional)</label>
+                     <small class="text-muted pull-right">Meta Description - Até 156 caracteres</small>
+                     <input type="text" name="auto_seo_desc" id="auto_seo_desc" class="form-control altura" placeholder="Informe uma descrição breve do automóvel" />
+                  </div>
+                  <div class="form-group col-md-6 col-xs-12">
+                     <label for="auto_seo_keys">Palavras-chave (SEO - Opcional)</label>
+                     <small class="text-muted pull-right">Meta Keywords - Até 20 palavras</small>
+                     <input type="text" name="auto_seo_keys" id="auto_seo_keys" class="form-control altura" placeholder="Informe palavras-chave do automóvel" />
+                  </div>
+               </div>
+               <div class="row">    
+                  <div class="col-md-12 col-xs-12 text-right">
+                     <div class="hidden-xs">
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-check-circle"></i> Cadastrar Dados</button>
+                     </div>
+                     <div class="visible-xs">
+                        <br/>
+                        <button type="submit" class="btn btn-block btn-primary"><i class="fas fa-check-circle"></i> Cadastrar Dados</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+
+            <div class="row">
+               <div class="col-md-6 col-xs-12">
+                  <ul id="lista"></ul>
+               </div>
+            </div>
+
+         </div>
+      </div>
+
+      <script>$('.money').mask("#.##0,00", {reverse: true});</script>
+      <script>$('#auto_placa_num').css('text-transform','uppercase').mask("AAA-9999");</script>
+
+      <script type="text/javascript">
+         $(document).ready(function() {
+            $('.js-example-basic-single').select2();
+            
+            $('#auto_obs').summernote({
+                height: 200
+            });
+
+            $('#tipo').change(function(e) {
+               marcas();
+            });
+
+            $('#auto_marca').change(function(e) {
+               modelos();
+            });
+
+            $('#auto_modelo').change(function(e) {
+               var texto = $('#auto_modelo option:selected').text(); //.split(" ");
+               var texar = $('#auto_modelo option:selected').text().split(" ");
+               
+               document.getElementById('auto_versao').value = texto.replace(texar[0],'').trim();
+               anos();
+            });
+
+            $('#ano').change(function(e) {
+               dados();
+            });
+
+            $('#auto_placa_num').change(function(e) {
+               var placa = $('input[name="auto_placa_num"]').val();
+               //var placa = $('#auto_placa_num').val();
+               
+               var Final = placa.substr(placa.length - 1, 1).trim();
+               
+               if ($.trim(placa)) {
+                  $("#auto_placa").children('[value="'+Final+'"]').attr('selected', true);
+                  $('#auto_placa').val(Final).trigger('change.select2');
+               }
+            });
+         });
+      </script>
+   </body>
+</html>

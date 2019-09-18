@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      
+      <title>Geração de NFe de Importação</title>
+      
+      <link rel="stylesheet" href="assets/fontawesome/css/all.css"/>
+      <link rel="stylesheet" href="assets/bootstrap/4.3.1/css/bootstrap.min.css"/>
+      <link rel="stylesheet" href="assets/bootstrap-fileinput/css/fileinput.min.css"/>
+      <link rel="stylesheet" href="assets/bootstrap-fileinput/themes/explorer-fas/theme.min.css"/>
+      <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css"/>
+      <link rel="stylesheet" href="assets/css/style.css"/>
+      <link rel="stylesheet" href="assets/DataTables/css/dataTables.bootstrap4.min.css"/>
+   </head>
+   <body class="hold-transition login-page">
+      
+      <div class="container-fluid back">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-9 col-xs-12">
+                  &nbsp;
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-md-9 col-xs-12">
+                  <h3 class="page-head-line titulo">Geração de NFe de Importação</h3>
+               </div>
+            </div>
+         </div>
+      </div>
+      
+      <div class="content-wrapper">
+         <div class="container">
+            
+            <div class="col-md-12">
+               <nav class="nav-justified ">
+                  <div class="nav nav-tabs " id="nav-tab" role="tablist">
+                     <a class="nav-item nav-link active" id="pop1-tab" data-toggle="tab" href="#pop1" role="tab" aria-controls="pop1" aria-selected="true">Arquivos</a>
+                     <a class="nav-item nav-link" id="pop2-tab" data-toggle="tab" href="#pop2" role="tab" aria-controls="pop2" aria-selected="false">Dados da NF</a>
+                     <a class="nav-item nav-link" id="pop3-tab" data-toggle="tab" href="#pop3" role="tab" aria-controls="pop3" aria-selected="false">Itens/Totais</a>
+                     <a class="nav-item nav-link" id="pop4-tab" data-toggle="tab" href="#pop4" role="tab" aria-controls="pop4" aria-selected="false">XML Gerado</a>
+                  </div>
+               </nav>
+               <div class="tab-content" id="nav-tabContent">
+                  <div class="tab-pane fade show active" id="pop1" role="tabpanel" aria-labelledby="pop1-tab">
+                     <div class="file-loading">
+                        <input type="file" name="file[]" id="file" multiple>
+                     </div>
+                  </div>
+                  <div class="tab-pane fade" id="pop2" role="tabpanel" aria-labelledby="pop2-tab">
+         
+                     <form method="post" enctype="multipart/form-data">
+                        
+                        <h2>Dados da Nota</h2>
+                        <div class="row">
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Número</label>
+                              <input type="text" name="nNF" id="nNF" class="form-control altura autofocus" />
+                           </div>
+                           <div class="form-group col-md-1 col-xs-12">
+                              <label>Serie</label>
+                              <input type="text" name="serie" id="serie" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-3 col-xs-12">
+                              <label>Natureza da Operação</label>
+                              <input type="text" name="natOp" id="natOp" class="form-control altura" />
+                           </div>
+                           
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Data da Emissão</label>
+                              <input type="text" name="dhEmi" id="dhEmi" class="form-control altura" disabled />
+                           </div>
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Data da Entrada</label>
+                              <input type="text" name="dtSaiEnt" id="dtSaiEnt" class="form-control altura" disabled />
+                           </div>
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Hora da Entrada</label>
+                              <input type="text" name="dhSaiEnt" id="dhSaiEnt" class="form-control altura" disabled />
+                           </div>
+                        </div>
+
+                        <h2>Emitente</h2>
+                        <div class="row">
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>CNPJ</label>
+                              <input type="text" name="cnpj" id="cnpj" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Inscrição Estadual</label>
+                              <input type="text" name="ie" id="ie" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Telefone</label>
+                              <input type="text" name="fone" id="fone" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-6 col-xs-12">
+                              <label>E-mail</label>
+                              <input type="text" name="email" id="email" class="form-control altura" />
+                           </div>
+                        </div>
+                        
+                        <div class="row">
+                           <div class="form-group col-md-6 col-xs-12">
+                              <label>Razão Social</label>
+                              <input type="text" name="xnome" id="xnome" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-6 col-xs-12">
+                              <label>Nome Fantasia</label>
+                              <input type="text" name="xfant" id="xfant" class="form-control altura" />
+                           </div>
+                        </div>
+                        
+                        <div class="row">
+                           <div class="form-group col-md-3 col-xs-12">
+                              <label>Endereço</label>
+                              <input type="text" name="xlgr" id="xlgr" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-1 col-xs-12">
+                              <label>Nº</label>
+                              <input type="text" name="nro" id="nro" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Bairro</label>
+                              <input type="text" name="xbairro" id="xbairro" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-6 col-xs-12">
+                              <label>Complemento</label>
+                              <input type="text" name="xcpl" id="xcpl" class="form-control altura" />
+                           </div>
+                        </div>
+                        
+                        <div class="row">
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Código Municipio</label>
+                              <input type="text" name="cmun" id="cmun" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-3 col-xs-12">
+                              <label>Municipio</label>
+                              <input type="text" name="xmun" id="xmun" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-1 col-xs-12">
+                              <label>UF</label>
+                              <input type="text" name="uf" id="uf" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>CEP</label>
+                              <input type="text" name="cep" id="cep" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Cód.Pais</label>
+                              <input type="text" name="cpais" id="cpais" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Pais</label>
+                              <input type="text" name="xpais" id="xpais" class="form-control altura" />
+                           </div>
+
+                        </div>
+                     
+                        <h2>Remetente</h2>
+                        <div class="row">
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>CNPJ</label>
+                              <input type="text" name="rcnpj" id="rcnpj" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Inscrição Estadual</label>
+                              <input type="text" name="rie" id="rie" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Telefone</label>
+                              <input type="text" name="rfone" id="rfone" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-6 col-xs-12">
+                              <label>E-mail</label>
+                              <input type="text" name="remail" id="remail" class="form-control altura" />
+                           </div>
+                        </div>
+                        
+                        <div class="row">
+                           <div class="form-group col-md-6 col-xs-12">
+                              <label>Razão Social</label>
+                              <input type="text" name="rxnome" id="rxnome" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-6 col-xs-12">
+                              <label>Nome Fantasia</label>
+                              <input type="text" name="rxfant" id="rxfant" class="form-control altura" />
+                           </div>
+                        </div>
+                        
+                        <div class="row">
+                           <div class="form-group col-md-3 col-xs-12">
+                              <label>Endereço</label>
+                              <input type="text" name="rxlgr" id="rxlgr" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-1 col-xs-12">
+                              <label>Nº</label>
+                              <input type="text" name="rnro" id="rnro" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Bairro</label>
+                              <input type="text" name="rxbairro" id="rxbairro" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-6 col-xs-12">
+                              <label>Complemento</label>
+                              <input type="text" name="rxcpl" id="rxcpl" class="form-control altura" />
+                           </div>
+                        </div>
+                        
+                        <div class="row">
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Cód.Mun.</label>
+                              <input type="text" name="rcmun" id="rcmun" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-3 col-xs-12">
+                              <label>Municipio</label>
+                              <input type="text" name="rxmun" id="rxmun" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-1 col-xs-12">
+                              <label>UF</label>
+                              <input type="text" name="ruf" id="ruf" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>CEP</label>
+                              <input type="text" name="rcep" id="rcep" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Cód.Pais</label>
+                              <input type="text" name="rcpais" id="rcpais" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Pais</label>
+                              <input type="text" name="rxpais" id="rxpais" class="form-control altura" />
+                           </div>
+                        </div>
+                     
+                        <h2>Transportador / Volumes</h2>
+                        <div class="row">
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>CNPJ</label>
+                              <input type="text" name="tcnpj" id="tcnpj" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-3 col-xs-12">
+                              <label>Nome/Razão Social</label>
+                              <input type="text" name="txnome" id="txnome" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-1 col-xs-12">
+                              <label>Insc.Est.</label>
+                              <input type="text" name="tie" id="tie" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-3 col-xs-12">
+                              <label>Endereço</label>
+                              <input type="text" name="txender" id="txender" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Municipio</label>
+                              <input type="text" name="txmun" id="txmun" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-1 col-xs-12">
+                              <label>UF</label>
+                              <input type="text" name="tuf" id="tuf" class="form-control altura" />
+                           </div>
+                        </div>
+                        
+                        <div class="row">
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Quantidade</label>
+                              <input type="text" name="qVol" id="qVol" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Espécie</label>
+                              <input type="text" name="esp" id="esp" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-2 col-xs-12">
+                              <label>Numeração</label>
+                              <input type="text" name="nVol" id="nVol" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-3 col-xs-12">
+                              <label>Peso Bruto</label>
+                              <input type="text" name="pesoB" id="pesoL" class="form-control altura" />
+                           </div>
+                           <div class="form-group col-md-3 col-xs-12">
+                              <label>Peso Líquido</label>
+                              <input type="text" name="pesoL" id="pesoB" class="form-control altura" />
+                           </div>
+                        </div>
+
+                        <hr />
+                        <div class="row">    
+                           <div class="col-md-6 col-xs-12 text-right">
+                           </div>
+                           <div class="col-md-3 col-xs-12 text-right">
+                              <div>
+                                 <button class="btn btn-block btn-primary" id="GerarXML"><i class="fas fa-check-circle"></i> Gerar XML</button>
+                              </div>
+                           </div>
+                           <div class="col-md-3 col-xs-12 text-right">
+                              <div>
+                                 <button class="btn btn-block btn-primary" id="VerDanfe"><i class="fas fa-check-circle"></i> Visualizar Cópia Danfe</button>
+                              </div>
+                           </div>
+                        </div>
+
+                        <h2>Informações Complementares</h2>
+                        <div class="row">
+                           <div class="form-group col-md-12 col-xs-12">
+                              <textarea name="DadosAdicionais" id="DadosAdicionais" rows="4" style="width:100%" ></textarea>
+                           </div>
+                        </div>
+                     </form>
+                  </div>
+                  <div class="tab-pane fade" id="pop3" role="tabpanel" aria-labelledby="pop3-tab">
+                     <h2>Totais</h2>
+                     <div class="row">
+                        <div class="form-group col-md-2 col-xs-12">
+                           <label>Base Calc. ICMS</label>
+                           <input type="text" name="BaseICMS" id="BaseICMS" class="form-control altura" style="text-align:right;" disabled />
+                        </div>
+                        <div class="form-group col-md-2 col-xs-12">
+                           <label>Valor do ICMS</label>
+                           <input type="text" name="ValorICMS" id="ValorICMS" class="form-control altura" style="text-align:right;" disabled />
+                        </div>
+                        <div class="form-group col-md-2 col-xs-12">
+                           <label>Base Calc. ICMS Sub.</label>
+                           <input type="text" name="BaseICMSsub" id="BaseICMSsub" class="form-control altura" style="text-align:right;" disabled />
+                        </div>
+                        <!--
+                        <div class="form-group col-md-2 col-xs-12">
+                           <label>Valor ICMS Subst.</label>
+                           <input type="text" name="ValorICMSsub" id="ValorICMSsub" class="form-control altura" style="text-align:right;" disabled />
+                        </div>
+                        -->
+                        <div class="form-group col-md-2 col-xs-12">
+                           <label>Valor II</label>
+                           <input type="text" name="ValorII" id="ValorII" class="form-control altura" style="text-align:right;" disabled />
+                        </div>
+                        <div class="form-group col-md-2 col-xs-12">
+                           <label>Valor do PIS</label>
+                           <input type="text" name="ValorPIS" id="ValorPIS" class="form-control altura" style="text-align:right;" disabled />
+                        </div>
+                        <div class="form-group col-md-2 col-xs-12">
+                           <label>Total Produtos</label>
+                           <input type="text" name="ValorTotalProdutos" id="ValorTotalProdutos" class="form-control altura" style="text-align:right;" disabled />
+                        </div>
+                     </div>
+               
+                     <div class="row">
+                        <div class="form-group col-md-2 col-xs-12">
+                           <label>Valor Frete</label>
+                           <input type="text" name="ValorFrete" id="ValorFrete" class="form-control altura" style="text-align:right;" disabled />
+                        </div>
+                        <div class="form-group col-md-2 col-xs-12">
+                           <label>Valor Seguro</label>
+                           <input type="text" name="ValorSeguro" id="ValorSeguro" class="form-control altura" style="text-align:right;" disabled />
+                        </div>
+                        <div class="form-group col-md-2 col-xs-12">
+                           <label>Outras Despesas</label>
+                           <input type="text" name="ValorOutrasDespesas" id="ValorOutrasDespesas" class="form-control altura" style="text-align:right;" disabled />
+                        </div>
+                        <div class="form-group col-md-2 col-xs-12">
+                           <label>Valor IPI</label>
+                           <input type="text" name="ValorIPI" id="ValorIPI" class="form-control altura" style="text-align:right;" disabled />
+                        </div>
+                        <div class="form-group col-md-2 col-xs-12">
+                           <label>Valor COFINS</label>
+                           <input type="text" name="ValorCOFINS" id="ValorCOFINS" class="form-control altura" style="text-align:right;" disabled />
+                        </div>
+                        <div class="form-group col-md-2 col-xs-12">
+                           <label>Total da Nota</label>
+                           <input type="text" name="ValorTotalNota" id="ValorTotalNota" class="form-control altura" style="text-align:right;" disabled />
+                        </div>
+                     </div>
+
+                     <h2>Itens</h2>
+                     <div class="row">
+                        <table id="itens" class="table table-striped table-bordered" style="width:100%">
+                           <thead>
+                              <tr>
+                                 <th>Item</th>
+                                 <th>Código</th>
+                                 <th>Descrição</th>
+                                 <th>NCM</th>
+                                 <th>CFOP</th>
+                                 <th>Unidade</th>
+                                 <th>Qtde</th>
+                                 <th>Valor Unit.</th>
+                                 <th>Valor Total</th>
+                                 <th>Base ICMS</th>
+                                 <th>Valor ICMS</th>
+                                 <th>Valor IPI</th>
+                                 <th>ICMS</th>
+                                 <th>ICMS Rec</th>
+                                 <th>%IPI</th>
+                              </tr>
+                           </thead>
+                        </table>
+                     
+                     </div>
+                  </div>
+                  <div class="tab-pane fade" id="pop4" role="tabpanel" aria-labelledby="pop4-tab">
+                     <div class="row">
+                        <div class="form-group col-md-12 col-xs-12">
+                           <!--pre style="width:100%;height:100%;">
+                              <code class="json" name="xmlGerado" id="xmlGerado">
+                              </code>
+                           </pre-->                           
+                           <textarea name="xmlGerado" id="xmlGerado" rows="20" style="width:100%;height:100%;" ></textarea>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      
+      <script src="assets/jquery-3.3.1/jquery-3.3.1.min.js"></script>
+      <script type="text/javascript" src="assets/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+      <script type="text/javascript" src="assets/bootstrap-fileinput/js/plugins/purify.min.js"></script>
+      <script type="text/javascript" src="assets/bootstrap-fileinput/js/plugins/sortable.min.js"></script>
+      <script type="text/javascript" src="assets/bootstrap-fileinput/js/plugins/piexif.min.js"></script>
+      <script type="text/javascript" src="assets/bootstrap-fileinput/js/fileinput.min.js"></script>
+      <script type="text/javascript" src="assets/bootstrap-fileinput/js/locales/pt-BR.js"></script>
+      <script type="text/javascript" src="assets/bootstrap-fileinput/themes/explorer-fas/theme.min.js"></script>
+      <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js" charset="utf8"></script>
+      <script type="text/javascript" src="assets/DataTables/js/dataTables.bootstrap4.min.js"></script>
+
+      <script>
+         let DadosNF = {"data" : []};
+         DadosNF = JSON.stringify(DadosNF);
+         let Remetente;
+         let XMLGerado = '';
+
+         // Validar parametros
+         const params = new URLSearchParams(document.location.search);
+         
+         const nf = params.get("nf");
+         if ($('#nNF').val() == '' && nf != null) {
+            $('#nNF').val(nf);
+         }
+
+         const serie = params.get("serie");
+         if ($('#serie').val() == '' && serie != null) {
+            $('#serie').val(serie);
+         }
+         
+         const email = params.get("email");
+         if ($('#email').val() == '' && email != null) {
+            $('#email').val(email); 
+         }
+         
+         const tcnpj = params.get("tcnpj");
+         if ($('#tcnpj').val() == '' && tcnpj != null) {
+            if (tcnpj == '07526202000110') {
+               $('#tcnpj').val(tcnpj);
+               $('#txnome').val('CASCO SOLUCOES LOGISTICAS LTDA');
+               $('#tie').val('ISENTO');
+               $('#txender').val('LEONEL FRANCA');
+               $('#txmun').val('CURITIBA');
+               $('#tuf').val('PR');
+            }
+         }
+         
+         $(document).ready(function() {
+            
+            var table = $('#itens').DataTable({
+               "ajax": function (data, callback, settings) {
+                  callback(
+                     JSON.parse(DadosNF)
+                  )
+               },
+               "columns": [
+                  { data: "pro_nitem" },
+                  { data: "pro_cProd" },
+                  { data: "pro_xProd" },
+                  { data: "pro_NCM" },
+                  { data: "pro_CFOP" },
+                  { data: "pro_uCom" },
+                  { data: "pro_qCom" },
+                  { data: "pro_vUnCom" },
+                  { data: "pro_vProd" },
+                  { data: "ICMSBas" },
+                  { data: "ICMSVal" },
+                  { data: "pro_vIPI" },
+                  { data: "ICMSPer" },
+                  { data: "ICMSRec" },
+                  { data: "IPIPer" }
+               ],
+               "language": {
+                  "decimal": ".",
+                  "thousands": ",",
+                  "sEmptyTable":   "Nenhum registro encontrado",
+                  "sProcessing":   "Processando...",
+                  "sLengthMenu":   "Mostrar _MENU_ registos",
+                  "sZeroRecords":  "Não foram encontrados resultados",
+                  "sInfo":         "Mostrando de _START_ até _END_ de _TOTAL_ registos",
+                  "sInfoEmpty":    "Mostrando de 0 até 0 de 0 registos",
+                  "sInfoFiltered": "(filtrado de _MAX_ registos no total)",
+                  "sInfoPostFix":  "",
+                  "sSearch":       "Procurar:",
+                  "sUrl":          "",
+                  "oPaginate": {
+                     "sFirst":    "Primeiro",
+                     "sPrevious": "Anterior",
+                     "sNext":     "Próximo",
+                     "sLast":     "Último"
+                  },
+                  "oAria": {
+                     "sSortAscending":  ": Ordem ascendente",
+                     "sSortDescending": ": Ordem descendente"
+                  }
+               }
+            });
+            
+            $("#file").fileinput({
+               showRemove: false,
+               theme: 'explorer-fas',
+               language: 'pt-BR',
+               uploadAsync: false,
+               uploadUrl: 'importa_excel.php',
+               minFileCount: 2,
+               maxFileCount: 2,
+               maxFileSize: 2000,
+               removeFromPreviewOnError: true,
+               overwriteInitial: false,
+               allowedFileExtensions: ['xls', 'xml'],
+               slugCallback: function (filename) {
+                  return filename.replace('(', '_').replace(']', '_').replace(' ', '_').replace(' ', '_');
+               },
+               preferIconicPreview: true,
+               previewFileIconSettings: {
+                    'xls': '<i class="fas fa-file-excel text-success"></i>',
+                    'xml': '<i class="fas fa-file-code text-info"></i>'
+               },
+               previewFileExtSettings: { // configure the logic for determining icon file extensions
+                  'xls': function(ext) {
+                     return ext.match(/(xls|xlsx)$/i);
+                  },
+                  'xml': function(ext) {
+                     return ext.match(/(xml)$/i);
+                  }
+               }
+            }).on('fileuploaded', function(event, previewId, index, fileId) {
+               //console.log('File Uploaded', 'ID: ' + fileId + ', Thumb ID: ' + previewId);
+               //console.log('event-1', event);
+            }).on('fileuploaderror', function(event, previewId, index, fileId) {
+               //console.log('File Upload Error', 'ID: ' + fileId + ', Thumb ID: ' + previewId);
+               //console.log('event-2', event);
+            }).on('filebatchuploadcomplete', function(event, preview, config, tags, extraData) {
+               //console.log('File Batch Uploaded', preview, config, tags, extraData);
+               //console.log('event-3', event);
+            }).on('filebatchuploadsuccess', function(event, data) {
+               //var form = data.form, files = data.files, extra = data.extra,
+               //response = data.response, reader = data.reader;
+               //console.log('File batch upload success', data);
+               //var ret = JSON.parse(response);
+               
+               DadosAdicionais = data.response.DadosAdicionais;
+               Totais = data.response.Totais;
+               Emitente = data.response.Emitente;
+               Remetente = data.response.Remetente;
+               DadosNF = '{"data":' + JSON.stringify(data.response.DadosNF) + '}';
+               //console.log('DadosAdicionais', DadosAdicionais);
+               //console.log('Totais', Totais);
+               //console.log('Emitente', Emitente);
+               console.log('DadosNF', data.response.DadosNF);
+               console.log('Totais', Totais);
+               
+               // Dados da NF
+               var agora = new Date();
+               var dhEmi = appZeros(appZeros(agora.getDate())) + '/' 
+                         + appZeros(agora.getMonth()) + '/' 
+                         + agora.getFullYear();
+               var hora  =  appZeros(agora.getHours()) + ":" 
+                         + appZeros(agora.getMinutes()) + ":" 
+                         + appZeros(agora.getSeconds());
+               $('#dhEmi').val(dhEmi);
+               $('#dtSaiEnt').val(dhEmi);
+               $('#dhSaiEnt').val(hora);
+               
+               if ($('#natOp').val() == '') {
+                  $('#natOp').val('IMPORTACAO');
+               }
+               
+               if ($('#serie').val() == '') {
+                  $('#serie').val('1');
+               }
+               
+               // Dados do Emitente
+               $('#cnpj').val(Emitente.cnpj.trim());
+               $('#xnome').val(Emitente.xnome.trim());
+               $('#xfant').val(Emitente.xfant.trim());
+               $('#xlgr').val(Emitente.xlgr.trim());
+               $('#nro').val(Emitente.nro.trim());
+               $('#xcpl').val(Emitente.xcpl.trim());
+               $('#xbairro').val(Emitente.xbairro.trim());
+               $('#cmun').val(Emitente.cmun.trim());
+               $('#xmun').val(Emitente.xmun.trim());
+               $('#cpais').val(Emitente.cpais.trim());
+               $('#xpais').val(Emitente.xpais.trim());
+               $('#ie').val(Emitente.ie.trim());
+               $('#uf').val(Emitente.uf.trim());
+               $('#cep').val(Emitente.cep.trim());
+               $('#fone').val(Emitente.fone.trim());
+               
+               if ($('#email').val() == '') {
+                  $('#email').val(Emitente.email.trim());
+               }
+               
+               // Dados do Remetente
+               $('#rcnpj').val(Remetente.cnpj.trim());
+               $('#rxnome').val(Remetente.xnome.trim());
+               $('#rxfant').val(Remetente.xfant.trim());
+               $('#rxlgr').val(Remetente.xlgr.trim());
+               $('#rnro').val(Remetente.nro.trim());
+               $('#rxcpl').val(Remetente.xcpl.trim());
+               
+               if (Remetente.xbairro.trim() != '') {
+                  $('#rxbairro').val(Remetente.xbairro.trim());
+               } else {
+                  $('#rxbairro').val('CENTRO');
+               }
+               
+               if (Remetente.xbairro.trim() != '') {
+                  $('#rcmun').val(Remetente.cmun.trim());
+                  $('#rxmun').val(Remetente.xmun.trim());
+               } else {
+                  $('#rcmun').val('9999999');
+                  $('#rxmun').val('EXTERIOR');
+               }
+               
+               $('#rcpais').val(Remetente.cpais.trim());
+               $('#rxpais').val(Remetente.xpais.trim() == 'ESTADOS UNIDOS' ? 'USA' : Remetente.xpais.trim());
+               $('#rie').val(Remetente.ie.trim());
+               $('#ruf').val(Remetente.uf.trim());
+               $('#rcep').val(Remetente.cep.trim());
+               $('#rfone').val(Emitente.fone.trim());
+               $('#remail').val(Emitente.email.trim());
+               
+               // Volumes
+               $('#qVol').val(DadosAdicionais.Volume.trim());
+               $('#esp').val(DadosAdicionais.Embalagem.trim());
+               $('#pesoB').val(DadosAdicionais.PesoBruto);
+               $('#pesoL').val(DadosAdicionais.PesoLiquido);
+               
+               // Informações Complementares
+               $('#DadosAdicionais').val(DadosAdicionais.Dados_Adicionais.trim());
+               
+               // Totais
+               $('#BaseICMS').val(Totais.vBC);
+               $('#ValorICMS').val(Totais.vICMS);
+               $('#BaseICMSsub').val(Totais.Base_Calc_ICMS_Subst);
+               //$('#ValorICMSsub').val(Totais.Valor_do_ICMS_Subst);
+               $('#ValorII').val(Totais.vII);
+               $('#ValorPIS').val(Totais.vPIS);
+               $('#ValorTotalProdutos').val(Totais.vProd);
+               
+               $('#ValorFrete').val(Totais.vFrete);
+               $('#ValorSeguro').val(Totais.vSeg);
+               $('#ValorOutrasDespesas').val(Totais.vOutro);
+               $('#ValorIPI').val(Totais.vIPI);
+               $('#ValorCOFINS').val(Totais.vCOFINS);
+               $('#ValorTotalNota').val(Totais.vNF);
+               
+               // Itens
+               table.ajax.reload();
+               
+               // Dados do Remetente
+               $('[href="#pop2"]').tab('show');
+               $('#nNF').focus();
+
+            });
+            
+            $("#GerarXML").click(function(e){
+               e.preventDefault();
+               //alert('GerarXML Clicado');
+               
+               var xmlEnv = {};
+                   
+                   xmlEnv.ttide         = [];
+               var ttide                = {};
+                   ttide.cUF            = $('#uf').val();
+                   ttide.cNF            = '';
+                   ttide.natOp          = $('#natOp').val();
+                   ttide.mod            = '55';
+                   ttide.serie          = $('#serie').val();
+                   ttide.nNF            = $('#nNF').val();
+                   ttide.dhEmi          = $('#dhEmi').val();
+                   ttide.dhSaiEnt       = $('#dhSaiEnt').val();
+                   ttide.tpNF           = '0';
+                   ttide.idDest         = '3';
+                   ttide.cMunFG         = '';
+                   ttide.tpImp          = '1';
+                   ttide.tpEmis         = '1';
+                   ttide.cDV            = '';
+                   ttide.tpAmb          = '1';
+                   ttide.finNFe         = '1';
+                   ttide.indFinal       = '0';
+                   ttide.indPres        = '1';
+                   ttide.procEmi        = '0';
+                   ttide.verProc        = '1.0';
+
+               xmlEnv.ttide.push(ttide);
+               
+                   xmlEnv.ttemit        = [];
+               var ttemit               = {};
+                   ttemit.cnpj          = $('#cnpj').val();
+                   ttemit.xnome         = $('#xnome').val();
+                   ttemit.xfant         = $('#xfant').val();
+                   ttemit.xlgr          = $('#xlgr').val();
+                   ttemit.nro           = $('#nro').val();
+                   ttemit.xcpl          = $('#xcpl').val();
+                   ttemit.xbairro       = $('#xbairro').val();
+                   ttemit.cmun          = $('#cmun').val();
+                   ttemit.xmun          = $('#xmun').val();
+                   ttemit.uf            = $('#uf').val();
+                   ttemit.cep           = $('#cep').val();
+                   ttemit.cpais         = $('#cpais').val();
+                   ttemit.xpais         = $('#xpais').val();
+                   ttemit.fone          = $('#fone').val();
+                   ttemit.ie            = $('#ie').val();
+                   //ttemit.iest          = $('#ie').val();
+                   ttemit.im            = '';
+                   ttemit.cnae          = '';
+                   ttemit.crt           = '3';
+                   ttemit.email         = $('#email').val();
+
+               xmlEnv.ttemit.push(ttemit);
+               
+                   xmlEnv.ttdest        = [];
+               var ttdest               = {}
+                   ttdest.cnpj          = $('#rcnpj').val();
+                   ttdest.cpf           = '';
+                   ttdest.idEstrangeiro = 'ISENTO';
+                   ttdest.xnome         = $('#rxnome').val();
+                   ttdest.xfant         = $('#rxfant').val();
+                   ttdest.xlgr          = $('#rxlgr').val();
+                   ttdest.nro           = $('#rnro').val();
+                   ttdest.xcpl          = $('#rxcpl').val();
+                   ttdest.xbairro       = $('#rxbairro').val();
+                   ttdest.cmun          = $('#rcmun').val();
+                   ttdest.xmun          = $('#rxmun').val();
+                   ttdest.uf            = $('#ruf').val();
+                   ttdest.cep           = $('#rcep').val();
+                   ttdest.cpais         = $('#rcpais').val();
+                   ttdest.xpais         = $('#rxpais').val();
+                   ttdest.fone          = $('#rfone').val();
+                   ttdest.ie            = $('#rie').val();
+                   ttdest.im            = '';
+                   ttdest.indiedest     = '9';
+                   ttdest.isuf          = '';
+                   ttdest.email         = $('#remail').val();
+
+               xmlEnv.ttdest.push(ttdest);
+               
+                   xmlEnv.tttransp      = [];
+               var tttransp             = {};
+                   tttransp.modFrete    = '1';
+                   tttransp.CNPJ        = $('#tcnpj').val();
+                   tttransp.xNome       = $('#txnome').val();
+                   tttransp.ie          = $('#tie').val();
+                   tttransp.xEnder      = $('#txender').val();
+                   tttransp.xMun        = $('#txmun').val();
+                   tttransp.UF          = $('#tuf').val();
+                   tttransp.qVol        = $('#qVol').val();
+                   tttransp.esp         = $('#esp').val();
+                   tttransp.nVol        = $('#nVol').val();
+                   tttransp.pesoL       = $('#pesoL').val();
+                   tttransp.pesoB       = $('#pesoB').val();
+
+               xmlEnv.tttransp.push(tttransp);
+               
+                   xmlEnv.ttpag = [];
+               var ttpag = {};
+                   ttpag.tPag           = '90';
+                   ttpag.vPag           = '0.00';
+                 //ttpag.indPag         = null;
+                 //ttpag.card           = null;
+                 //ttpag.tpIntegra      = null;
+                 //ttpag.CNPJ           = null;
+                 //ttpag.tBand          = null;
+                 //ttpag.cAut           = null;
+                 //ttpag.vTroco         = null;
+
+               xmlEnv.ttpag.push(ttpag);
+               
+                   xmlEnv.ttinfAdic     = [];
+               var ttinfAdic            = {};
+                   ttinfAdic.infCpl     = $('#DadosAdicionais').val().trim();
+               xmlEnv.ttinfAdic.push(ttinfAdic);
+
+                   xmlEnv.tttotais      = [];
+               var tttotais             = {};
+                   tttotais.vBC         = Totais.vBC;
+                   tttotais.vICMS       = Totais.vICMS;
+                   tttotais.vProd       = Totais.vProd;
+                   tttotais.vFrete      = Totais.vFrete;
+                   tttotais.vSeg        = Totais.vSeg;
+                   tttotais.vII         = Totais.vII;
+                   tttotais.vIPI        = Totais.vIPI;
+                   tttotais.vPIS        = Totais.vPIS;
+                   tttotais.vCOFINS     = Totais.vCOFINS;
+                   tttotais.vOutro      = Totais.vOutro;
+                   tttotais.vNF         = Totais.vNF;
+               xmlEnv.tttotais.push(tttotais);
+
+
+               //var Itens = table.rows().data();
+               //console.log('Itens', Itens);
+               
+               var dados = JSON.parse(DadosNF);
+                   xmlEnv.ttite         = [];
+
+               console.log('dados', dados);
+                   
+               for (key in dados.data) {
+                  var ttite                  = {};
+                      // Dados do Produto
+                      ttite.pro_nitem        = dados.data[key].pro_nitem;
+                      ttite.pro_cProd        = dados.data[key].pro_cProd;
+                      ttite.pro_cEAN         = dados.data[key].pro_Cean;
+                      ttite.pro_xProd        = dados.data[key].pro_xProd;
+                      ttite.pro_NCM          = dados.data[key].pro_NCM.replace(/\./g,'');
+                      ttite.pro_CEST         = dados.data[key].pro_CEST;
+                      ttite.pro_indEscala    = 'S';
+                      ttite.pro_CFOP         = dados.data[key].pro_CFOP;
+                      ttite.pro_uCom         = dados.data[key].pro_uCom;
+                      ttite.pro_qCom         = dados.data[key].pro_qCom;
+                      ttite.pro_vUnCom       = dados.data[key].pro_vUnCom;
+                      ttite.pro_vProd        = dados.data[key].pro_vProd;
+                      ttite.pro_cEANTrib     = dados.data[key].pro_Cean;
+                      ttite.pro_uTrib        = dados.data[key].pro_uCom;
+                      ttite.pro_qTrib        = dados.data[key].pro_qCom;
+                      ttite.pro_vUnTrib      = dados.data[key].pro_vUnCom;
+                      ttite.pro_vDesc        = dados.data[key].pro_vDesc;
+                      ttite.pro_vOutro       = dados.data[key].pro_vOutro;
+                      ttite.pro_indTot       = '1';
+                      ttite.pro_cprodanp     = '';
+                      ttite.pro_descanp      = '';
+                      ttite.pro_imposto      = '';
+                      ttite.pro_vTotTrib     = dados.data[key].pro_vProd;
+                      ttite.pro_vFrete       = dados.data[key].pro_vFrete;
+                      ttite.pro_vSeg         = dados.data[key].pro_vSeg;
+                      
+                      // Dados da Declaracao de Importacao (DI)
+                      ttite.pro_nDI          = dados.data[key].pro_nDI;
+                      
+                      ttite.pro_dDI          = DadosAdicionais.pro_dDI.trim() != '' ? 
+                                              (DadosAdicionais.pro_dDI.substr(0,4) + '-' +
+                                               DadosAdicionais.pro_dDI.substr(4,2) + '-' +
+                                               DadosAdicionais.pro_dDI.substr(6,2)) : '';
+                      ttite.pro_xLocDesemb   = DadosAdicionais.pro_xLocDesemb;
+                      ttite.pro_UFDesemb     = 'PR';
+                      ttite.pro_dDesemb      = DadosAdicionais.pro_dDesemb != '' ? 
+                                              (DadosAdicionais.pro_dDesemb.substr(0,4) + '-' +
+                                               DadosAdicionais.pro_dDesemb.substr(4,2) + '-' +
+                                               DadosAdicionais.pro_dDesemb.substr(6,2)): '';
+                      ttite.pro_tpViaTransp  = '1';  //<-- Verificar informacao/parametro
+                      ttite.pro_AFRMM        = dados.data[key].AFRMM;
+                      ttite.pro_tpIntermedio = '1';  //<-- Verificar informacao/parametro
+                      ttite.pro_cExportador  = '00'; //<-- Verificar informacao/parametro
+
+                      // Dados da Adicao
+                      ttite.pro_nAdicao      = dados.data[key].pro_nAdicao;
+                      ttite.pro_nSeqAdic     = dados.data[key].pro_nSeqAdic;
+                      ttite.pro_cFabricante  = dados.data[key].pro_cProd;
+                      
+                      // II (Imposto de Importacao)
+                      ttite.ii_vDespAdu      = '0.00';
+                      ttite.ii_vBC           = dados.data[key].pro_vProd;
+                      ttite.ii_pII           = dados.data[key].IIPer;
+                      ttite.ii_vII           = dados.data[key].pro_vII;
+                      
+                      // IPI
+                      ttite.ipi_cEnq         = '999';
+                      ttite.ipi_cst          = '00';
+                      ttite.ipi_vBC          = dados.data[key].pro_IPIBas;
+                      ttite.ipi_pIPI         = dados.data[key].IPIPer;
+                      ttite.ipi_vIPI         = dados.data[key].pro_vIPI;
+                      
+                      // PIS
+                      ttite.pis_CST          = '01';
+                      ttite.pis_vBC          = dados.data[key].pro_vProd;
+                      ttite.pis_pPIS         = dados.data[key].PISPer;
+                      ttite.pis_vPIS         = dados.data[key].pro_vPIS;
+                      
+                      // COFINS
+                      ttite.cofins_CST       = '01';
+                      ttite.cofins_vBC       = dados.data[key].pro_vProd;
+                      ttite.cofins_pCOFINS   = dados.data[key].COFINSPer;
+                      ttite.cofins_vCOFINS   = dados.data[key].pro_vCOFINS;
+                      
+                      // ICMS
+                      ttite.icm_orig         = '1';
+                      ttite.icm_CST          = '00';
+                      ttite.icm_modBC        = '0';
+                      ttite.icm_vBC          = dados.data[key].pro_ICMSBas;
+                      ttite.icm_pICMS        = dados.data[key].ICMSPer;
+                      ttite.icm_vICMS        = dados.data[key].pro_vICMS;
+
+
+                  xmlEnv.ttite.push(ttite);
+               }
+               /*
+               for (key in Itens) {
+                  //console.log(key, Itens[key]);
+                  var ttite            = {};
+                  for (Item in Itens[key]) {
+                     //console.log('Item', Item, Itens[key][Item]);
+                     if (Number.isInteger(Item)) {
+                        ttite[Item] = Itens[key][Item];
+                     }
+                  }
+                  console.log('ttite', ttite);
+                  //xmlEnv.ttite.push(ttite);
+                  //xmlEnv.ttite.push(Itens[key]);
+               }
+               */
+               //xmlEnv.ttite = {};
+               //xmlEnv.ttite.pro_nitem        = '90';
+               
+               //table
+               
+               $('#xmlGerado').text( JSON.stringify(xmlEnv) );
+               
+               var soapMessage =
+               '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://foo.bar/NFeService/types">' +
+                   '<soapenv:Header/>' +
+                   '<soapenv:Body>' +
+                        '<typ:Tipo>NFe</typ:Tipo>' + //NFe ou NFCe
+                        '<typ:Metodo>GerarXML</typ:Metodo>' +
+                        '<typ:Cert_PFX></typ:Cert_PFX>' +
+                        '<typ:Pass_PFX></typ:Pass_PFX>' +
+                        '<typ:ConfigJson>{"tpAmb":2,"razaosocial":"PROCYON INFORMATICA","siglaUF":"PR","cnpj":"83571430000160","simples":"N"}</typ:ConfigJson>' +
+                        '<typ:Json>' + JSON.stringify(xmlEnv) + '</typ:Json>' +
+                  '</soapenv:Body>' +
+               '</soapenv:Envelope>';
+               
+               var htprot = (location.protocol != 'https:' ? 'http' : 'https');
+
+               
+               $.ajax({
+                  url : htprot + '://fdc.procyon.com.br/wss/NFe-Services/',
+                  type : 'POST',
+                  data : soapMessage,
+                  beforeSend : function(){
+                     //$("#resultado").html("ENVIANDO...");
+                  }
+               })
+               .done(function(xmlRet){
+                  //$("#resultado").html(xmlRet);
+                  $('#xmlGerado').text(xmlRet);
+               })
+               .fail(function(jqXHR, textStatus, msg){
+                  alert(msg);
+               });                
+               
+               
+               $('[href="#pop4"]').tab('show');
+               
+               /*
+               var xhttp = new XMLHttpRequest();
+               xhttp.onreadystatechange = function() {
+                  if (this.readyState == 4 && this.status == 200) {
+                     XMLGerado = (new XMLSerializer()).serializeToString(this.responseXML);
+                     //XMLGerado = this.responseXML;
+                     //console.log('xmlGerado', xmlGerado);
+                     console.log('XMLGerado', XMLGerado);
+                     //document.getElementById("xmlGerado").innerHTML = 
+                     //   '<pre style="width:100%;height:100%;"><code class="xml">' + XMLGerado.toString() + '</code></pre>';
+                     $('#xmlGerado').text(XMLGerado.toString());
+                     $('[href="#pop4"]').tab('show');
+                  }
+               };
+               xhttp.open("GET", "xml/original.xml", true);
+               xhttp.send();
+               */
+
+            });
+            
+            $("#xmlGerado").click(function(){
+               $(this).select();
+               document.execCommand('copy');
+               document.getElementById("xmlGerado").disabled = true;
+            });
+            
+            $("#VerDanfe").click(function(e){
+               e.preventDefault();
+               alert('VerDanfe Clicado');
+            });
+         
+         });
+         
+         function downloadFile() {
+            window.URL = window.webkitURL || window.URL;
+            
+            var prevLink = output.querySelector('a');
+            
+            if (prevLink) {
+               window.URL.revokeObjectURL(prevLink.href);
+               output.innerHTML = '';
+            }
+            
+            var bb = new Blob([typer.textContent], {type: MIME_TYPE});
+            
+            var a = document.createElement('a');
+            a.download = container.querySelector('input[type="text"]').value;
+            a.href = window.URL.createObjectURL(bb);
+            a.textContent = 'Download ready';
+            a.dataset.downloadurl = [MIME_TYPE, a.download, a.href].join(':');
+            a.draggable = true; // Don't really need, but good practice.
+            a.classList.add('dragout');
+            output.appendChild(a);
+            a.onclick = function(e) {
+               if ('disabled' in this.dataset) {
+                  return false;
+               }
+               cleanUp(this);
+            };
+         }
+                  
+         function appZeros(n) {
+            if (n <= 9){
+               return "0" + n;
+            }
+            return n
+         }
+
+      </script>
+   </body>
+</html>
