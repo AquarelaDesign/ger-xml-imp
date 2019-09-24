@@ -63,3 +63,11 @@ typings/
 # composer (php)
 vendor
 composer.lock
+
+# API's
+assets/bootstrap/
+assets/bootstrap-fileinput/
+assets/DataTables/
+assets/fontawesome/
+assets/jquery-3.2.1/
+assets/tree-xml-viewer-formatter/
